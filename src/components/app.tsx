@@ -183,7 +183,8 @@ export const App = () => {
         <p>
           Watch George Floyd protests live from around the world.{' '}
           <strong><a href="https://docs.google.com/document/d/1296X0Iws9uWO1OPuDYjGTTrkQ99FLKbkGuUtir9G1jM/edit" target="_blank">Donate</a></strong>{' '}
-          to support those fighting on the front lines.
+          to support those fighting on the front lines.{' '}
+          <strong><a href="mailto:info@walkout.tv">Contact me</a></strong>
         </p>
         <p>Made with <span className="emoji">❤️</span> in support of the Black Lives Matter movement.</p>
       </div>

@@ -49,7 +49,7 @@ export const AddStreamForm = ({done}: {done: () => void}) => {
   return (
     <div className="formContainer">
       <h2>Add Stream</h2>
-      <p>Help us maintain the list of available streams by submitting a link below. After it is verified, the link will appear in the public list.</p>
+      <p>Help maintain the list of available streams by submitting a link below. After it is verified, the link will appear in the public list.</p>
       <form className="form" onSubmit={handleSubmit}>
         <input type="text" className="formInput" value={name} onChange={handleName} placeholder="Name (e.g. streamer's name/channel)" />
         <input type="text" className="formInput" value={location} onChange={handleLocation} placeholder="Location (e.g. city, state)" />
