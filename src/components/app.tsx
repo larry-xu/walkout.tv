@@ -75,6 +75,7 @@ export const App = () => {
     return fetch(STREAM_LIST_SOURCE)
       .then(response => response.text())
       .then(text => Papa.parse(text, { header: true, skipEmptyLines: "greedy" }).data)
+      .then(rawList => rawList.filter(row => row.Published === "Yes"))
       .then(data => {
         setStreamList(data);
         setIsLoading(false);
@@ -104,7 +105,7 @@ export const App = () => {
     });
   }, []);
 
-  const filteredData = streamList.filter(d => {
+  const filteredStreamList = streamList.filter(d => {
     if (search === "") {
       return true;
     }
@@ -137,7 +138,7 @@ export const App = () => {
                 {sourceUrl: stream.Link, key: stream.Link}
               ) :
               showIntro && <h1 className="introText">
-                Click a stream to start watching →
+                {filteredStreamList.length > 0 ? "Click a stream to start watching →" : "No streams available"}
               </h1>
             }
           </div>
@@ -163,7 +164,7 @@ export const App = () => {
               </div>
               {isLoading ? <div className="loading">Loading streams...</div> :
                 <div className="streamList">
-                  {filteredData.map((stream, i) => 
+                  {filteredStreamList.map((stream, i) =>
                     <div
                       key={i}
                       onClick={() => handleStreamClick(stream)}
