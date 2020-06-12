@@ -11,7 +11,7 @@ module.exports = merge(common, {
   plugins: [
     new webpack.DefinePlugin({
       CLIENT_DOMAIN: JSON.stringify("www.walkout.tv"),
-      PROXY_ORIGIN: JSON.stringify("https://proxy.walkout.tv")
+      PROXY_ORIGIN: JSON.stringify("http://proxy.walkout.tv")
     })
   ],
 });

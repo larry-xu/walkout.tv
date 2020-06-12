@@ -6,7 +6,8 @@
     "build": "webpack --config webpack.dev.js",
     "watch": "webpack --config webpack.dev.js --watch",
     "start": "webpack-dev-server --config webpack.dev.js",
-    "start-proxy": "node server/index.js",
+    "start-dev-proxy": "node server/index.js 3000",
+    "start-proxy": "node server/index.js 80",
     "release": "webpack --config webpack.prod.js"
   },
   "author": "Larry Xu",

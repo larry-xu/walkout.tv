@@ -22,5 +22,12 @@ function requestListener(req, res) {
   }
 }
 
+var args = process.argv.slice(2);
+if (args.length === 0) {
+  console.error('must specify a port argument');
+  process.exit(1);
+}
+
+var port = args[0];
 var server = http.createServer(requestListener);
-server.listen(3000);
+server.listen(port);
