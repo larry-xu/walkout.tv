@@ -1,6 +1,7 @@
 import * as React from "react";
 import videojs from "video.js";
 
+import { Config } from "../config";
 import { getSourceUrlId } from "../source_url";
 
 const getDataUrl = (url: string) => {
@@ -9,7 +10,7 @@ const getDataUrl = (url: string) => {
 }
 
 const getProxyUrl = (url: string) => {
-  return `http://localhost:3000/${url}`;
+  return `${Config.PROXY_ORIGIN}/${url}`;
 }
 
 export const PeriscopePlayer = ({sourceUrl}: {sourceUrl: string}) => {
