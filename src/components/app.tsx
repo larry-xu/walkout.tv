@@ -72,7 +72,7 @@ export const App = () => {
   };
 
   const refreshStreamList = () => {
-    return fetch(STREAM_LIST_SOURCE)
+    return fetch(STREAM_LIST_SOURCE, { cache: "no-store" })
       .then(response => response.text())
       .then(text => Papa.parse(text, { header: true, skipEmptyLines: "greedy" }).data)
       .then(rawList => rawList.filter(row => row.Published === "Yes"))
