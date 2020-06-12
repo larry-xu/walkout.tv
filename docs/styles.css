@@ -1,0 +1,179 @@
+html, body, #root, .appContainer {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue", Arial,
+    "Noto Sans",
+    sans-serif;
+  background: #111;
+}
+
+.appContainer {
+  min-width: 1154px;
+  min-height: 640px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.mainContainer {
+  width: 100%;
+  max-width: 1254px;
+  min-width: 1154px;
+  min-height: 544px;
+  display: flex;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.streamContainer {
+  background: #000;
+  width: 854px;
+  height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fb-video {
+  width: 100%;
+}
+
+.introText {
+  color: #fff;
+}
+
+.streamDetails {
+  background: #43484a;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  color: #fff;
+}
+
+.link {
+  color: #fff;
+  text-decoration: none;
+}
+
+.sideContainer {
+  width: 100%;
+  background: #f0f0f0;
+}
+
+.streamListContainer {
+  display: grid;
+  grid-template-rows: auto 472px;
+}
+
+.searchContainer {
+  padding: 20px;
+  display: flex;
+}
+
+.searchInput {
+  width: 100%;
+  flex: 1;
+  height: 32px;
+  padding: 0 10px;
+  font-size: 13px;
+}
+
+.searchRowButton {
+  margin-left: 12px;
+  height: 32px;
+  cursor: pointer;
+  border: 1px solid #888;
+  border-radius: 3px;
+  background: #eaeaea;
+  font-size: 13px;
+}
+
+.searchRowButton:hover {
+  background: #e0e0e0;
+}
+
+.loading {
+  padding: 20px;
+}
+
+.streamList {
+  overflow-y: scroll;
+}
+
+.streamItem {
+  padding: 10px 20px;
+  border-top: 1px solid #ccc;
+}
+
+.streamItem:hover {
+  cursor: pointer;
+  background: #e3e3e3;
+}
+
+.footnote {
+  color: #fff;
+  text-align: center;
+}
+
+.footnote a {
+  color: #fff;
+}
+
+.formContainer {
+  padding: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.formInput {
+  padding: 8px;
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+
+.submitButton {
+  padding: 8px;
+  background: #ab0826;
+  color: #fff;
+  border: 0;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.backButton {
+  border: 0;
+  cursor: pointer;
+  margin-top: 12px;
+  text-decoration: underline;
+  padding: 0;
+  font-size: 14px;
+  background: none;
+}
+
+.errorMessage {
+  color: #ab0826;
+}
+
+/* fix emoji spacing on mac chrome for non-retina display */
+@media
+not screen and (min-device-pixel-ratio: 2),
+not screen and (min-resolution: 192dpi) {
+  .emoji {
+    width: 23px;
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+  }
+}
