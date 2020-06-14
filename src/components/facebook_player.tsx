@@ -10,6 +10,7 @@ export const FacebookPlayer = ({sourceUrl}: {sourceUrl: string}) => {
       const rect = el.getBoundingClientRect();
       if (rect.height > rect.width) {
         el.style.width = "270px";
+        el.style.height = "480px";
       }
     }, 1000);
 
