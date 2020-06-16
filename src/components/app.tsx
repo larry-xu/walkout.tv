@@ -6,15 +6,9 @@ import { FacebookPlayer } from "./facebook_player";
 import { PeriscopePlayer } from "./periscope_player";
 import { TwitchPlayer } from "./twitch_player";
 import { YoutubePlayer } from "./youtube_player";
+import { getSourceInfo, StreamType } from "../source_url";
 
-const STREAM_LIST_SOURCE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSv8D5o_qVVyXP04E875yC60H8ZyVO7qwhXW4CE9EX4k6itPUxyixfQQmJNkQad4vkaJJVTNAWEoobU/pub?gid=0&single=true&output=csv'
-
-const enum StreamType {
-  Facebook = "Facebook",
-  Periscope = "Periscope",
-  Twitch = "Twitch",
-  Youtube = "Youtube",
-}
+const STREAM_LIST_SOURCE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRwy_RmqgnDQiYnzJDpvQA3t_q1XgJB42L1PrzDj9yLhhoSf899fH51fSnIaWwNNX1qELmyH9I2qQhc/pub?gid=321928782&single=true&output=csv';
 
 type Stream = {
   Name: string;
@@ -75,7 +69,30 @@ export const App = () => {
     return fetch(STREAM_LIST_SOURCE, { cache: "no-store" })
       .then(response => response.text())
       .then(text => Papa.parse(text, { header: true, skipEmptyLines: "greedy" }).data)
-      .then(rawList => rawList.filter(row => row.Published === "Yes"))
+      .then(rawList => {
+        return rawList.map(d => {
+          const sourceInfo = getSourceInfo(d.Link);
+          if (sourceInfo === null) {
+            return null;
+          }
+          if (sourceInfo.Link === 'https://www.twitch.tv/woke') {
+            return {
+              Name: d.Source,
+              Type: sourceInfo.Type,
+              Location: "Multi-city",
+              Link: sourceInfo.Link,
+              Status: d.Status
+            };
+          }
+          return {
+            Name: d.Source,
+            Type: sourceInfo.Type,
+            Location: `${d.City}, ${d.State}`,
+            Link: sourceInfo.Link,
+            Status: d.Status
+          };
+        }).filter(d => d !== null)
+      })
       .then(data => {
         setStreamList(data);
         setIsLoading(false);
@@ -127,6 +144,9 @@ export const App = () => {
     return a.Location.localeCompare(b.Location) || a.Name.localeCompare(b.Name);
   });
 
+  const liveData = filteredStreamList.filter(d => d.Status === 'Live');
+  const offlineData = filteredStreamList.filter(d => d.Status === 'Offline');
+
 	return (
     <div className="appContainer">
       <div className="mainContainer">
@@ -164,14 +184,19 @@ export const App = () => {
               </div>
               {isLoading ? <div className="loading">Loading streams...</div> :
                 <div className="streamList">
-                  {filteredStreamList.map((stream, i) =>
-                    <div
-                      key={i}
-                      onClick={() => handleStreamClick(stream)}
-                      className="streamItem"
-                    >
-                      <strong>{stream.Location}</strong> — {stream.Name}
-                    </div>
+                  {liveData && (
+                    <StreamList
+                      streamList={liveData}
+                      status="Live"
+                      handleStreamClick={handleStreamClick}
+                    />
+                  )}
+                  {offlineData && (
+                    <StreamList
+                      streamList={offlineData}
+                      status="Offline"
+                      handleStreamClick={handleStreamClick}
+                    />
                   )}
                 </div>
               }
@@ -189,5 +214,30 @@ export const App = () => {
         <p>Made with <span className="emoji">❤️</span> in support of the Black Lives Matter movement.</p>
       </div>
     </div>
+  );
+};
+
+type StreamListProps = {
+  streamList: Stream[];
+  status: string;
+  handleStreamClick: (stream: Stream) => void;
+};
+
+const StreamList = ({streamList, status, handleStreamClick}: StreamListProps) => {
+  return (
+    <>
+      <div className={`streamListStatus ${status}`}>
+        <h2>{`${status} Streams (${streamList.length})`}</h2>
+      </div>
+      {streamList.map((stream, i) =>
+        <div
+          key={i}
+          onClick={() => handleStreamClick(stream)}
+          className="streamItem"
+        >
+          <strong>{stream.Location}</strong> — {stream.Name}
+        </div>
+      )}
+    </>
   );
 };

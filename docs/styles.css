@@ -109,6 +109,23 @@ body {
   overflow-y: scroll;
 }
 
+.streamListStatus {
+  padding: 20px;
+  color: #fff;
+}
+
+.streamListStatus.Live {
+  background: #da4f4f;
+}
+
+.streamListStatus.Offline {
+  background: #888;
+}
+
+.streamListStatus h2 {
+  margin: 0;
+}
+
 .streamItem {
   font-size: 20px;
   padding: 20px;
