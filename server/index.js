@@ -1,11 +1,20 @@
 var http = require('http');
 var https = require('https');
 
+var re = /\/transcode\/([^\/]+)\//;
+
 function requestListener(req, res) {
   console.log('received path:', req.url);
 
   try {
     var url = req.url.substr(1);
+    if (url.substr(0, 4) !== 'http') {
+      var result = re.exec(url);
+      if (result === null) {
+        throw new Error('could not determine host to proxy to');
+      }
+      url = 'https://prod-fastly-' + result[1] + '.video.periscope.tv/' + url;
+    }
 
     function proxyHandler(proxyRes) {
       proxyRes.headers['access-control-allow-origin'] = '*';
