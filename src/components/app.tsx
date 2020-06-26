@@ -8,7 +8,15 @@ import { TwitchPlayer } from "./twitch_player";
 import { YoutubePlayer } from "./youtube_player";
 import { getSourceInfo, StreamType } from "../source_url";
 
-const STREAM_LIST_SOURCE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRwy_RmqgnDQiYnzJDpvQA3t_q1XgJB42L1PrzDj9yLhhoSf899fH51fSnIaWwNNX1qELmyH9I2qQhc/pub?gid=321928782&single=true&output=csv';
+const STREAM_LIST_SOURCE = 'https://woke.net/api/streams.json';
+
+type RawStreamData = {
+  source: string;
+  link: string;
+  city: string;
+  state: string;
+  status: string;
+}
 
 type Stream = {
   Name: string;
@@ -67,29 +75,28 @@ export const App = () => {
 
   const refreshStreamList = () => {
     return fetch(STREAM_LIST_SOURCE, { cache: "no-store" })
-      .then(response => response.text())
-      .then(text => Papa.parse(text, { header: true, skipEmptyLines: "greedy" }).data)
-      .then(rawList => {
+      .then(response => response.json())
+      .then((rawList: RawStreamData[]) => {
         return rawList.map(d => {
-          const sourceInfo = getSourceInfo(d.Link);
+          const sourceInfo = getSourceInfo(d.link);
           if (sourceInfo === null) {
             return null;
           }
           if (sourceInfo.Link === 'https://www.twitch.tv/woke') {
             return {
-              Name: d.Source,
+              Name: d.source,
               Type: sourceInfo.Type,
               Location: "Multi-city",
               Link: sourceInfo.Link,
-              Status: d.Status
+              Status: d.status
             };
           }
           return {
-            Name: d.Source,
+            Name: d.source,
             Type: sourceInfo.Type,
-            Location: `${d.City}, ${d.State}`,
+            Location: `${d.city}, ${d.state}`,
             Link: sourceInfo.Link,
-            Status: d.Status
+            Status: d.status
           };
         }).filter(d => d !== null)
       })
