@@ -8,7 +8,7 @@ import { TwitchPlayer } from "./twitch_player";
 import { YoutubePlayer } from "./youtube_player";
 import { getSourceInfo, StreamType } from "../source_url";
 
-const STREAM_LIST_SOURCE = 'https://woke.net/api/streams.json';
+const STREAM_LIST_SOURCE = 'https://api.woke.net/streams.json';
 
 type RawStreamData = {
   source: string;
